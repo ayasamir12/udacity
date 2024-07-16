@@ -2,7 +2,7 @@
 import time
 import random
 def choice1():
-       score = 0
+       score = 10
        #if player score is 0 he loses
        print("You find a monster infront of your face")
        print("What will you do?")
