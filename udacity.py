@@ -5,17 +5,18 @@ import sys, signal
 
 
 score = 0
+# COLOR = (69, 69, 69)
 
 
 def exit():
-    print("\nSee you next time", end="")
+    print("\nbyeeeeeeeeeee", end="")
     print(f"\033[0m", end="")
     sys.exit(0)
 
 
-@lambda f: signal.signal(signal.SIGINT, f)
 def signal_handler(*args):
     exit()
+signal.signal(signal.SIGINT, signal_handler)
 
 
 def custom_print(data: str, sep: float=0.0125, color: Tuple[int, int, int]=(198, 47, 222), safe: bool=True, *args, **kwargs):
@@ -134,10 +135,10 @@ their branches reaching towards the sky.")
         choice2()
 
 
-@lambda main: main()
 def main():
     try:
         start()
     except Exception as e:
         print(f"Sorry, I messed up in:\n{e.with_traceback(e.args)}")
         exit()
+main()
