@@ -43,6 +43,49 @@ def custom_input(data):
     return input(">> ")
 
 
+from typing import Tuple
+import sys, signal
+
+
+score = 0
+# COLOR = (69, 69, 69)
+
+
+def exit():
+    print("\nbyeeeeeeeeeee", end="")
+    print(f"\033[0m", end="")
+    sys.exit(0)
+
+
+def signal_handler(*args):
+    exit()
+signal.signal(signal.SIGINT, signal_handler)
+
+
+def custom_print(data: str, sep: float=0.0125, color: Tuple[int, int, int]=(198, 47, 222), safe: bool=True, *args, **kwargs):
+    try:
+        global COLOR
+        color = COLOR
+    except NameError:
+        color = color
+
+    r, g, b = color
+    print(f"\033[38;2;{r};{g};{b}m", end="")
+    for s in data:
+        print(s, flush=True, end="")
+        time.sleep(sep)
+    if safe:
+        print()
+    return color
+
+COLOR = custom_print("", safe=False)
+
+
+def custom_input(data):
+    custom_print(data, safe=False)
+    return input(">> ")
+
+
 def choice1():
     global score
     print(score, "score", flush=True)
@@ -51,8 +94,9 @@ def choice1():
     custom_print("What will you do?")
     custom_print("Enter 1 to run away from him")
     custom_print("Enter 2 to beat him with your tool")
+    user_input = custom_input("Please enter 1 or 2:")
 
-    while (user_input:=custom_input("Please enter 1 or 2:")) not in ("1", "2"): pass
+    while user_input not in ("1", "2"): user_input = custom_input("Please enter 1 or 2:")
     if user_input=="1":
         custom_print("You were caught by the monster")
         custom_print(f"You lost!")
@@ -86,7 +130,8 @@ def choice2():
     custom_print("Enter 1 to hide from him")
     custom_print("Enter 2 cast a spell")
 
-    while (user_input:=custom_input("Please enter 1 or 2:")) not in ("1", "2"): pass
+    user_input = custom_input("Please enter 1 or 2:")
+    while (user_input) not in ("1", "2"): user_input = custom_input("Please enter 1 or 2:")
 
     if user_input=="1":
         custom_print("The ghost kept searching, he found you")
@@ -104,7 +149,8 @@ def choice2():
 def play_again():
     global score
     custom_print(f"With a score of {score}")
-    while (choice:=custom_input("Would you like to play again?")) not in ["yes", "no"]: pass
+    choice = custom_input("Would you like to play again?")
+    while (choice) not in ["yes", "no"]: choice = custom_input("Would you like to play again?")
     if choice == "yes":
         start()
     elif choice == "no":
@@ -128,7 +174,8 @@ their branches reaching towards the sky.")
     custom_print("Enter 2 to enter the grave yard.")
     custom_print("What would you like to do?")
     choices = ("1", "2")
-    while (user_input := custom_input("Please enter 1 or 2:")) not in choices: pass
+    user_input = custom_input("Please enter 1 or 2:")
+    while (user_input) not in choices: user_input = custom_input("Please enter 1 or 2:")
     if user_input=="1":
         choice1()
     else:
