@@ -14,9 +14,9 @@ def exit():
     sys.exit(0)
 
 
-@lambda f: signal.signal(signal.SIGINT, f)
 def signal_handler(*args):
     exit()
+signal.signal(signal.SIGINT, signal_handler)
 
 
 def custom_print(data: str, sep: float=0.0125, color: Tuple[int, int, int]=(198, 47, 222), safe: bool=True, *args, **kwargs):
@@ -51,8 +51,9 @@ def choice1():
     custom_print("What will you do?")
     custom_print("Enter 1 to run away from him")
     custom_print("Enter 2 to beat him with your tool")
+    user_input = custom_input("Please enter 1 or 2:")
 
-    while (user_input:=custom_input("Please enter 1 or 2:")) not in ("1", "2"): pass
+    while user_input not in ("1", "2"): user_input = custom_input("Please enter 1 or 2:")
     if user_input=="1":
         custom_print("You were caught by the monster")
         custom_print(f"You lost!")
@@ -86,7 +87,8 @@ def choice2():
     custom_print("Enter 1 to hide from him")
     custom_print("Enter 2 cast a spell")
 
-    while (user_input:=custom_input("Please enter 1 or 2:")) not in ("1", "2"): pass
+    user_input = custom_input("Please enter 1 or 2:")
+    while (user_input) not in ("1", "2"): user_input = custom_input("Please enter 1 or 2:")
 
     if user_input=="1":
         custom_print("The ghost kept searching, he found you")
@@ -104,7 +106,8 @@ def choice2():
 def play_again():
     global score
     custom_print(f"With a score of {score}")
-    while (choice:=custom_input("Would you like to play again?")) not in ["yes", "no"]: pass
+    choice = custom_input("Would you like to play again?")
+    while (choice) not in ["yes", "no"]: choice = custom_input("Would you like to play again?")
     if choice == "yes":
         start()
     elif choice == "no":
@@ -128,17 +131,19 @@ their branches reaching towards the sky.")
     custom_print("Enter 2 to enter the grave yard.")
     custom_print("What would you like to do?")
     choices = ("1", "2")
-    while (user_input := custom_input("Please enter 1 or 2:")) not in choices: pass
+    user_input = custom_input("Please enter 1 or 2:")
+    while (user_input) not in choices: user_input = custom_input("Please enter 1 or 2:")
     if user_input=="1":
         choice1()
     else:
         choice2()
 
 
-@lambda main: main()
 def main():
     try:
         start()
     except Exception as e:
         print(f"Sorry, I messed up in:\n{e.with_traceback(e.args)}")
         exit()
+main()
+
