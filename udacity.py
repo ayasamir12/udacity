@@ -43,6 +43,49 @@ def custom_input(data):
     return input(">> ")
 
 
+from typing import Tuple
+import sys, signal
+
+
+score = 0
+# COLOR = (69, 69, 69)
+
+
+def exit():
+    print("\nbyeeeeeeeeeee", end="")
+    print(f"\033[0m", end="")
+    sys.exit(0)
+
+
+def signal_handler(*args):
+    exit()
+signal.signal(signal.SIGINT, signal_handler)
+
+
+def custom_print(data: str, sep: float=0.0125, color: Tuple[int, int, int]=(198, 47, 222), safe: bool=True, *args, **kwargs):
+    try:
+        global COLOR
+        color = COLOR
+    except NameError:
+        color = color
+
+    r, g, b = color
+    print(f"\033[38;2;{r};{g};{b}m", end="")
+    for s in data:
+        print(s, flush=True, end="")
+        time.sleep(sep)
+    if safe:
+        print()
+    return color
+
+COLOR = custom_print("", safe=False)
+
+
+def custom_input(data):
+    custom_print(data, safe=False)
+    return input(">> ")
+
+
 def choice1():
     global score
     print(score, "score", flush=True)
